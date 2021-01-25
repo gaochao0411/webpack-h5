@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="renderer" content="webkit" />
+  <!-- 保留历史记录以及动画效果 -->
+  <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+  <!-- 是否启用 WebApp 全屏模式 -->
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <!-- 格式检测  禁止把数字转化为拨号链接或者邮箱地址-->
+  <meta content="telephone=no,email=no" name="format-detection">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title><%= title  %></title>
+  <meta name="keywords" content="<%= keyword %>" />
+  <meta name="description" content="<%= description %>" />
+  <script>
+    ;
+    (function (window, documentElement) {
+      function refreshRem() { //响应式
+        var width = documentElement.getBoundingClientRect().width || 640;
+        var fontSize = width / 375 * 100;
+        fontSize = fontSize > 100 ? 100 : fontSize;
+        documentElement.style.fontSize = fontSize + 'px';
+      };
+      var timeId;
+      window.addEventListener('resize', function () {
+        clearTimeout(timeId);
+        timeId = setTimeout(refreshRem, 100)
+      }, false);
+      window.addEventListener("pageshow", function (e) { //ios后退刷新
+        if (e.persisted) {
+          clearTimeout(timeId);
+          timeId = setTimeout(refreshRem, 100)
+        }
+      }, false);
+      refreshRem();
+    })(window, document.documentElement);
+    /* 
+     * 百度统计代码  https://tongji.baidu.com/
+     */
+    var _hmt = _hmt || [];
+    (function () {
+      var hmtId = '';
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?" + hmtId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <%- content %>
+  </div>
+  <% if (console) {%>
+  <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script type="text/javascript">
+    var vConsole = new VConsole();
+  </script>
+  <% } %>
+</body>
+
+</html>
